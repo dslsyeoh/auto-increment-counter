@@ -66,13 +66,13 @@ class AnimeUpdater implements Updater<Anime>
         anime.setNextReleaseCountdown(nextReleaseCountdown);
     }
 
-    private int evaluateIncrement(int difference, int nextReleaseDuration)
+    private int evaluateIncrement(int difference, int upcomingDays)
     {
-        return INCREMENT + difference / nextReleaseDuration;
+        return INCREMENT + difference / upcomingDays;
     }
 
-    private int evaluteActualDays(int difference, int nextReleaseDuration)
+    private int evaluteActualDays(int difference, int upcomingDays)
     {
-        return difference / nextReleaseDuration * nextReleaseDuration;
+        return difference / upcomingDays * upcomingDays;
     }
 }
