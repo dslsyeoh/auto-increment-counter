@@ -15,8 +15,8 @@ class AnimeUpdater
 {
     void update(Anime anime)
     {
-        LocalDate nextReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
-        LocalDate currentDate = DateUtils.localDate(new Date());
+        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
+        LocalDate currentDate = DateUtils.toLocalDate(new Date());
 
         if(currentDate.isEqual(nextReleaseDate) || currentDate.isAfter(nextReleaseDate))
         {

@@ -39,8 +39,8 @@ class AnimeUpdaterTest3
     @Test
     void testEpisodeEqualTo2()
     {
-        LocalDate nextReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
-        LocalDate stimulateReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(5);
+        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
+        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(5);
 
         if(stimulateReleaseDate.isEqual(nextReleaseDate))
         {
@@ -53,8 +53,8 @@ class AnimeUpdaterTest3
     @Test
     void testEpisodeEqualTo3()
     {
-        LocalDate nextReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
-        LocalDate stimulateReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(5);
+        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
+        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(5);
 
         if(stimulateReleaseDate.isEqual(nextReleaseDate))
         {
@@ -67,8 +67,8 @@ class AnimeUpdaterTest3
     @Test
     void testEpisodeEqualTo5()
     {
-        LocalDate nextReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
-        LocalDate stimulateReleaseDate = DateUtils.localDate(anime.getCurrentDate()).plusDays(10);
+        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
+        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(10);
 
         validate(stimulateReleaseDate, nextReleaseDate);
         Assertions.assertEquals(5, anime.getCurrentEpisode());

@@ -11,7 +11,9 @@ import java.util.Date;
 
 public class DateUtils
 {
-    public static LocalDate localDate(Date date)
+    private DateUtils() {}
+
+    public static LocalDate toLocalDate(Date date)
     {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
