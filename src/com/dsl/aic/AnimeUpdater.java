@@ -8,7 +8,6 @@ package com.dsl.aic;
 import com.dsl.aic.utils.DateUtils;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Date;
 
 class AnimeUpdater implements Updater<Anime>
