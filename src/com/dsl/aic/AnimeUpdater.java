@@ -11,12 +11,18 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
 
-class AnimeUpdater
+class AnimeUpdater implements Updater<Anime>
 {
-    void update(Anime anime)
+    @Override
+    public void update(Anime anime)
+    {
+        update(anime, DateUtils.toLocalDate(new Date()));
+    }
+
+    @Override
+    public void update(Anime anime, LocalDate currentDate)
     {
         LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
-        LocalDate currentDate = DateUtils.toLocalDate(new Date());
 
         if(currentDate.isEqual(nextReleaseDate) || currentDate.isAfter(nextReleaseDate))
         {
