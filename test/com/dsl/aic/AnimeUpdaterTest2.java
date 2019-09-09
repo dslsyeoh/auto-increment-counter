@@ -78,8 +78,7 @@ class AnimeUpdaterTest2
     private void update(LocalDate currentDate, LocalDate nextReleaseDate, Anime anime)
     {
         int diff = Math.abs(Period.between(currentDate, nextReleaseDate).getDays());
-        int counter = 0;
-        if (diff > 0) counter = diff / anime.getNextReleaseDuration();
+        int counter = 1 + diff > 0 ? diff / anime.getNextReleaseDuration() : 0;
         anime.setCurrentDate(DateUtils.toDate(currentDate));
         anime.setCurrentEpisode(anime.getCurrentEpisode() + 1 + counter);
     }
