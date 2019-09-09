@@ -13,5 +13,5 @@ public interface Updater<T>
 
     // Test case purpose
     // In actual use case, will use current date
-    void update(T object, LocalDate stimulateDate);
+    void updateTest(T object, LocalDate stimulateDate);
 }
