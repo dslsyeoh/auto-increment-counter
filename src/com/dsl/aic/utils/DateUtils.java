@@ -16,8 +16,6 @@ import java.util.Objects;
 
 public class DateUtils
 {
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
-
     private DateUtils() {}
 
     public static LocalDate toLocalDate(Date date)
@@ -39,13 +37,13 @@ public class DateUtils
     {
         try
         {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
             return simpleDateFormat.parse(date);
         }
         catch (ParseException e)
         {
             e.printStackTrace();
         }
-
         return null;
     }
 }
