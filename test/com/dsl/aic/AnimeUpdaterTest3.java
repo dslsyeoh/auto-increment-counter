@@ -30,7 +30,7 @@ class AnimeUpdaterTest3
         anime = new Anime();
         anime.setName("Anime");
         anime.setCurrentEpisode(1);
-        anime.setNextReleaseDuration(5);
+        anime.setUpComingEpisodeDays(5);
         anime.setCurrentDate(DateUtils.toDate("09-09-2019"));
     }
 
