@@ -12,6 +12,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class DateUtils
 {
@@ -21,7 +22,7 @@ public class DateUtils
 
     public static LocalDate toLocalDate(Date date)
     {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return Objects.requireNonNull(date).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public static Date toDate(LocalDate localDate)
