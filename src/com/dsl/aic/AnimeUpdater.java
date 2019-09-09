@@ -47,10 +47,11 @@ class AnimeUpdater implements Updater<Anime>
             int nextReleaseCountdown = DateUtils.daysDiff(currentDate, newNextReleaseDate.plusDays(nextReleaseDuration));
 
             update(anime, newNextReleaseDate, nextReleaseCountdown, increment);
-            return;
         }
-
-        update(anime, nextReleaseDate);
+        else
+        {
+            update(anime, nextReleaseDate);
+        }
     }
 
     private void update(Anime anime, LocalDate updatedDate)
