@@ -6,17 +6,14 @@
 package com.dsl.aic;
 
 import com.dsl.aic.utils.DateUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
-import java.util.Date;
-import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AnimeUpdaterTest3
@@ -26,17 +23,15 @@ class AnimeUpdaterTest3
     private AnimeUpdater animeUpdater;
 
     @BeforeAll
-    void initialize() throws ParseException
+    void initialize()
     {
         animeUpdater = new AnimeUpdater();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-        Date initialDate = simpleDateFormat.parse("09-09-2019");
 
         anime = new Anime();
         anime.setName("Anime");
         anime.setCurrentEpisode(1);
         anime.setNextReleaseDuration(5);
-        anime.setCurrentDate(initialDate);
+        anime.setCurrentDate(DateUtils.toDate("09-09-2019"));
     }
 
     @Test
@@ -45,7 +40,8 @@ class AnimeUpdaterTest3
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(5);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(2, anime.getCurrentEpisode());
+        assertEquals(2, anime.getCurrentEpisode());
+        assertEquals(DateUtils.toDate("09-14-2019"), anime.getCurrentDate());
     }
 
     @Test
@@ -54,15 +50,17 @@ class AnimeUpdaterTest3
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(5);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(3, anime.getCurrentEpisode());
+        assertEquals(3, anime.getCurrentEpisode());
+        assertEquals(DateUtils.toDate("09-19-2019"), anime.getCurrentDate());
     }
 
     @Test
-    void testEpisodeEqualTo5()
+    void testEpisodeEqualTo5() throws ParseException
     {
-        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(10);
+        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(11);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(5, anime.getCurrentEpisode());
+        assertEquals(5, anime.getCurrentEpisode());
+        assertEquals(DateUtils.toDate("09-29-2019"), anime.getCurrentDate());
     }
 }

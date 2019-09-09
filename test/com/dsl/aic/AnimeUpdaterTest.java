@@ -8,12 +8,9 @@ package com.dsl.aic;
 import com.dsl.aic.utils.DateUtils;
 import org.junit.jupiter.api.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
-import java.util.Date;
-import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AnimeUpdaterTest
@@ -28,16 +25,13 @@ class AnimeUpdaterTest
     }
 
     @BeforeEach
-    void setup() throws ParseException
+    void setup()
     {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
-        Date initialDate = simpleDateFormat.parse("09-09-2019");
-
         anime = new Anime();
         anime.setName("Anime");
         anime.setCurrentEpisode(1);
         anime.setNextReleaseDuration(7);
-        anime.setCurrentDate(initialDate);
+        anime.setCurrentDate(DateUtils.toDate("09-09-2019"));
     }
 
     @Test
@@ -46,7 +40,8 @@ class AnimeUpdaterTest
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(1);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(1, anime.getCurrentEpisode());
+        assertEquals(1, anime.getCurrentEpisode());
+        assertEquals(DateUtils.toDate("09-09-2019"), anime.getCurrentDate());
     }
 
     @Test
@@ -55,7 +50,8 @@ class AnimeUpdaterTest
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(2, anime.getCurrentEpisode());
+        assertEquals(2, anime.getCurrentEpisode());
+        assertEquals(DateUtils.toDate("09-16-2019"), anime.getCurrentDate());
     }
 
     @Test
@@ -64,7 +60,8 @@ class AnimeUpdaterTest
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(0, anime.getNextReleaseCountdown());
+        assertEquals(0, anime.getNextReleaseCountdown());
+        assertEquals(DateUtils.toDate("09-16-2019"), anime.getCurrentDate());
     }
 
     @Test
@@ -73,7 +70,8 @@ class AnimeUpdaterTest
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(1);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(6, anime.getNextReleaseCountdown());
+        assertEquals(6, anime.getNextReleaseCountdown());
+        assertEquals(DateUtils.toDate("09-09-2019"), anime.getCurrentDate());
     }
 
     @Test
@@ -85,7 +83,8 @@ class AnimeUpdaterTest
         stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(1);
         animeUpdater.update(anime, stimulateReleaseDate);
 
-        Assertions.assertEquals(5, anime.getCurrentEpisode());
-        Assertions.assertEquals(6, anime.getNextReleaseCountdown());
+        assertEquals(5, anime.getCurrentEpisode());
+        assertEquals(6, anime.getNextReleaseCountdown());
+        assertEquals(DateUtils.toDate("10-07-2019"), anime.getCurrentDate());
     }
 }
