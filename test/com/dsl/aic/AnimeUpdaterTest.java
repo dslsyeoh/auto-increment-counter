@@ -19,9 +19,16 @@ import java.util.Locale;
 class AnimeUpdaterTest
 {
     private Anime anime;
+    private AnimeUpdater animeUpdater;
+
+    @BeforeAll
+    void initialize()
+    {
+        animeUpdater = new AnimeUpdater();
+    }
 
     @BeforeEach
-    void initialize() throws ParseException
+    void setup() throws ParseException
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         Date initialDate = simpleDateFormat.parse("09-09-2019");
@@ -36,20 +43,17 @@ class AnimeUpdaterTest
     @Test
     void testEpisodeNotYetRelease()
     {
-        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(1);
+        animeUpdater.update(anime, stimulateReleaseDate);
 
-        validate(stimulateReleaseDate, nextReleaseDate);
         Assertions.assertEquals(1, anime.getCurrentEpisode());
     }
 
     @Test
     void testEpisodeEqualTo2()
     {
-        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
-
-        validate(stimulateReleaseDate, nextReleaseDate);
+        animeUpdater.update(anime, stimulateReleaseDate);
 
         Assertions.assertEquals(2, anime.getCurrentEpisode());
     }
@@ -57,60 +61,31 @@ class AnimeUpdaterTest
     @Test
     void testReleaseCountdownEqualTo0()
     {
-        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
+        animeUpdater.update(anime, stimulateReleaseDate);
 
-        validate(stimulateReleaseDate, nextReleaseDate);
         Assertions.assertEquals(0, anime.getNextReleaseCountdown());
     }
 
     @Test
     void testReleaseCountdownEqualTo6()
     {
-        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(1);
+        animeUpdater.update(anime, stimulateReleaseDate);
 
-        validate(stimulateReleaseDate, nextReleaseDate);
         Assertions.assertEquals(6, anime.getNextReleaseCountdown());
     }
 
     @Test
     void testEpisodeEqualTo5AndReleaseCountdownEqual6()
     {
-        LocalDate nextReleaseDate;
-        LocalDate stimulateReleaseDate;
+        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(28);
+        animeUpdater.update(anime, stimulateReleaseDate);
 
-        nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
-        stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(28);
-
-        validate(stimulateReleaseDate, nextReleaseDate);
-
-        nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getNextReleaseDuration());
         stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(1);
-
-        validate(stimulateReleaseDate, nextReleaseDate);
+        animeUpdater.update(anime, stimulateReleaseDate);
 
         Assertions.assertEquals(5, anime.getCurrentEpisode());
         Assertions.assertEquals(6, anime.getNextReleaseCountdown());
-    }
-
-    private void validate(LocalDate stimulateReleaseDate, LocalDate nextReleaseDate)
-    {
-        if(stimulateReleaseDate.isEqual(nextReleaseDate) || stimulateReleaseDate.isAfter(nextReleaseDate))
-        {
-            update(stimulateReleaseDate, nextReleaseDate, anime);
-        }
-        else
-        {
-            anime.setNextReleaseCountdown(Period.between(stimulateReleaseDate, nextReleaseDate).getDays());
-        }
-    }
-
-    private void update(LocalDate currentDate, LocalDate nextReleaseDate, Anime anime)
-    {
-        int diff = Math.abs(Period.between(currentDate, nextReleaseDate).getDays());
-        int counter = 1 + diff > 0 ? diff / anime.getNextReleaseDuration() : 0;
-        anime.setCurrentDate(DateUtils.toDate(currentDate));
-        anime.setCurrentEpisode(anime.getCurrentEpisode() + 1 + counter);
     }
 }
