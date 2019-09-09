@@ -30,15 +30,18 @@ class AnimeUpdater implements Updater<Anime>
         }
         else
         {
-            anime.setNextReleaseCountdown(Period.between(currentDate, nextReleaseDate).getDays());
+            anime.setNextReleaseCountdown(DateUtils.daysDiff(currentDate, nextReleaseDate));
         }
     }
 
     private void update(LocalDate currentDate, LocalDate nextReleaseDate, Anime anime)
     {
-        int diff = Math.abs(Period.between(currentDate, nextReleaseDate).getDays());
-        int counter = 1 + diff > 0 ? diff / anime.getNextReleaseDuration() : 0;
-        anime.setCurrentDate(DateUtils.toDate(currentDate));
-        anime.setCurrentEpisode(anime.getCurrentEpisode() + 1 + counter);
+        int diff = DateUtils.daysDiff(currentDate, nextReleaseDate);
+        int leapEpisode = diff / anime.getNextReleaseDuration();
+        int increment = 1 + (diff > 0 ? leapEpisode : 0);
+
+        LocalDate updatedDate = diff > 0 ? nextReleaseDate.plusDays((leapEpisode * anime.getNextReleaseDuration())) : nextReleaseDate;
+        anime.setCurrentDate(DateUtils.toDate(updatedDate));
+        anime.setCurrentEpisode(anime.getCurrentEpisode() + increment);
     }
 }
