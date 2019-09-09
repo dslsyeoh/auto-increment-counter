@@ -23,7 +23,7 @@ class AnimeUpdater implements Updater<Anime>
     @Override
     public void updateTest(Anime anime, LocalDate currentDate)
     {
-        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getUpComingEpisodeDays());
+        LocalDate nextReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(anime.getUpcomingDays());
 
         if(currentDate.isEqual(nextReleaseDate) || currentDate.isAfter(nextReleaseDate))
         {
@@ -40,11 +40,11 @@ class AnimeUpdater implements Updater<Anime>
         int difference = DateUtils.daysDiff(currentDate, nextReleaseDate);
         if(difference > 0)
         {
-            int upComingEpisodeDays = anime.getUpComingEpisodeDays();
-            int nextEpisodeDays = evaluateNextEpisodeDays(difference, upComingEpisodeDays);
-            int increment = evaluateIncrement(difference, upComingEpisodeDays);
-            LocalDate newNextReleaseDate = nextReleaseDate.plusDays(nextEpisodeDays);
-            int nextReleaseCountdown = DateUtils.daysDiff(currentDate, newNextReleaseDate.plusDays(upComingEpisodeDays));
+            int upcomingDays = anime.getUpcomingDays();
+            int actualDays = evaluateNextEpisodeDays(difference, upcomingDays);
+            int increment = evaluateIncrement(difference, upcomingDays);
+            LocalDate newNextReleaseDate = nextReleaseDate.plusDays(actualDays);
+            int nextReleaseCountdown = DateUtils.daysDiff(currentDate, newNextReleaseDate.plusDays(upcomingDays));
 
             update(anime, newNextReleaseDate, nextReleaseCountdown, increment);
         }
@@ -56,7 +56,7 @@ class AnimeUpdater implements Updater<Anime>
 
     private void update(Anime anime, LocalDate updatedDate)
     {
-        update(anime, updatedDate, anime.getUpComingEpisodeDays(), INCREMENT);
+        update(anime, updatedDate, anime.getUpcomingDays(), INCREMENT);
     }
 
     private void update(Anime anime, LocalDate updatedDate, int nextReleaseCountdown, int increment)

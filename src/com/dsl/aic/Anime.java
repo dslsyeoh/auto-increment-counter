@@ -11,7 +11,7 @@ class Anime
 {
     private String name;
     private int currentEpisode;
-    private int upComingEpisodeDays;
+    private int upcomingDays;
     private int nextReleaseCountdown;
     private Date currentDate;
 
@@ -35,14 +35,14 @@ class Anime
         this.currentEpisode = current;
     }
 
-    int getUpComingEpisodeDays()
+    int getUpcomingDays()
     {
-        return upComingEpisodeDays;
+        return upcomingDays;
     }
 
-    void setUpComingEpisodeDays(int upComingEpisodeDays)
+    void setUpcomingDays(int upcomingDays)
     {
-        this.upComingEpisodeDays = upComingEpisodeDays;
+        this.upcomingDays = upcomingDays;
     }
 
     int getNextReleaseCountdown()
