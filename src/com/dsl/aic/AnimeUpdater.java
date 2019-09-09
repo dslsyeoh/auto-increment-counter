@@ -44,8 +44,8 @@ class AnimeUpdater implements Updater<Anime>
             int allocateDays = evaluateAllocateDays(difference, nextReleaseDuration);
             int increment = evaluateIncrement(difference, nextReleaseDuration);
             LocalDate newNextReleaseDate = nextReleaseDate.plusDays(allocateDays);
-            int newNextReleaseDuration = nextReleaseDuration - DateUtils.daysDiff(currentDate, newNextReleaseDate);
-            int nextReleaseCountdown = evaluateNextReleaseCountdown(newNextReleaseDate, newNextReleaseDuration);
+            int remainingDays = nextReleaseDuration - DateUtils.daysDiff(currentDate, newNextReleaseDate);
+            int nextReleaseCountdown = evaluateNextReleaseCountdown(newNextReleaseDate, remainingDays);
 
             update(anime, newNextReleaseDate, nextReleaseCountdown, increment);
             return;
@@ -59,9 +59,9 @@ class AnimeUpdater implements Updater<Anime>
         update(anime, updatedDate, anime.getNextReleaseDuration(), INCREMENT);
     }
 
-    private int evaluateNextReleaseCountdown(LocalDate currentDate, int nextReleaseDurations)
+    private int evaluateNextReleaseCountdown(LocalDate currentDate, int remainingDays)
     {
-        return DateUtils.daysDiff(currentDate, currentDate.plusDays(nextReleaseDurations));
+        return DateUtils.daysDiff(currentDate, currentDate.plusDays(remainingDays));
     }
 
     private void update(Anime anime, LocalDate updatedDate, int nextReleaseCountdown, int increment)
