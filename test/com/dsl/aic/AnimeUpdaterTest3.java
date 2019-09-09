@@ -38,7 +38,7 @@ class AnimeUpdaterTest3
     void testEpisodeEqualTo2()
     {
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(5);
-        animeUpdater.update(anime, stimulateReleaseDate);
+        animeUpdater.updateTest(anime, stimulateReleaseDate);
 
         assertEquals(2, anime.getCurrentEpisode());
         assertEquals(DateUtils.toDate("09-14-2019"), anime.getCurrentDate());
@@ -48,7 +48,7 @@ class AnimeUpdaterTest3
     void testEpisodeEqualTo3()
     {
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(5);
-        animeUpdater.update(anime, stimulateReleaseDate);
+        animeUpdater.updateTest(anime, stimulateReleaseDate);
 
         assertEquals(3, anime.getCurrentEpisode());
         assertEquals(DateUtils.toDate("09-19-2019"), anime.getCurrentDate());
@@ -58,9 +58,10 @@ class AnimeUpdaterTest3
     void testEpisodeEqualTo5() throws ParseException
     {
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(11);
-        animeUpdater.update(anime, stimulateReleaseDate);
+        animeUpdater.updateTest(anime, stimulateReleaseDate);
 
         assertEquals(5, anime.getCurrentEpisode());
         assertEquals(DateUtils.toDate("09-29-2019"), anime.getCurrentDate());
+        assertEquals(4, anime.getNextReleaseCountdown());
     }
 }

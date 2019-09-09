@@ -34,19 +34,21 @@ class AnimeUpdaterTest2
     void testEpisodeEqualTo2()
     {
         LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
-        animeUpdater.update(anime, stimulateReleaseDate);
+        animeUpdater.updateTest(anime, stimulateReleaseDate);
 
         assertEquals(2, anime.getCurrentEpisode());
+        assertEquals(7, anime.getNextReleaseCountdown());
         assertEquals(DateUtils.toDate("09-16-2019"), anime.getCurrentDate());
     }
 
     @Test
     void testEpisodeEqualTo3()
     {
-        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
-        animeUpdater.update(anime, stimulateReleaseDate);
+        LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(8);
+        animeUpdater.updateTest(anime, stimulateReleaseDate);
 
         assertEquals(3, anime.getCurrentEpisode());
+        assertEquals(6, anime.getNextReleaseCountdown());
         assertEquals(DateUtils.toDate("09-23-2019"), anime.getCurrentDate());
     }
 
@@ -56,9 +58,10 @@ class AnimeUpdaterTest2
         for(int i = 0; i < 2; i++)
         {
             LocalDate stimulateReleaseDate = DateUtils.toLocalDate(anime.getCurrentDate()).plusDays(7);
-            animeUpdater.update(anime, stimulateReleaseDate);
+            animeUpdater.updateTest(anime, stimulateReleaseDate);
         }
         assertEquals(5, anime.getCurrentEpisode());
+        assertEquals(7, anime.getNextReleaseCountdown());
         assertEquals(DateUtils.toDate("10-07-2019"), anime.getCurrentDate());
     }
 }
